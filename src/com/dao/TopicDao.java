@@ -105,12 +105,13 @@ public class TopicDao {
 	public static String searchTopic(Topic topic){
 
 		String sql="SELECT topicId,topicName FROM topic WHERE topicState=1"
-				+ " AND topicName LIKE '%"+topic.getTopicName()+"%' LIMIT 15 ;";
+				+ " AND topicName LIKE ? LIMIT 15 ;";
 		Connection conn = ConnectionManager.getInstance().getConnection();  
 		PreparedStatement ptmt=null;
 		ResultSet rst=null;
         try{
         	ptmt = conn.prepareStatement(sql);
+        	ptmt.setString(1,"%"+topic.getTopicName()+"%");
         	rst=ptmt.executeQuery();
         	JSONArray array=new JSONArray();
 			java.sql.ResultSetMetaData metaData=rst.getMetaData();
@@ -177,38 +178,38 @@ public class TopicDao {
 			sql1 = "SELECT topicId,topicName,topicDiscription,followNumber,topicAvatar  FROM topic WHERE topicState=1 AND "
 					+ " topicName IN (SELECT provinceName FROM province WHERE"
 					+ " provinceId IN (SELECT rId FROM volunschool"
-					+ " WHERE id='"+userId+"' AND nameDuty =1 )) ;";
+					+ " WHERE id=? AND nameDuty =1 )) ;";
 			//心仪的大学
 			sql2 = "SELECT topicId,topicName,topicDiscription,followNumber,topicAvatar FROM topic WHERE topicState=1 AND "
 					+ " topicName IN (SELECT universityName FROM university WHERE"
 					+ " universityId IN (SELECT rId FROM volunschool"
-					+ " WHERE id='"+userId+"' AND nameDuty =2 )) ;";
+					+ " WHERE id=? AND nameDuty =2 )) ;";
 			//心仪的专业
 			sql3 = "SELECT topicId,topicName,topicDiscription,followNumber,topicAvatar FROM topic WHERE topicState=1 AND "
 					+ " topicName IN (SELECT majorName FROM major WHERE"
 					+ " majorId IN (SELECT rId FROM volunschool"
-					+ " WHERE id='"+userId+"' AND nameDuty =3 )) ;";
+					+ " WHERE id=? AND nameDuty =3 )) ;";
 			
 			
 		}else if(duty==2){
 			//大学生所在学校
 			sql1 ="SELECT topicId,topicName,topicDiscription,followNumber,topicAvatar FROM topic WHERE topicState=1 AND "
 					+ " topicName=(SELECT universityName FROM university"
-					+ " WHERE universityId =( SELECT universityId FROM collegestu WHERE id='"+userId+"'));";
+					+ " WHERE universityId =( SELECT universityId FROM collegestu WHERE id=?));";
 			//大学生所学专业
 			sql2="SELECT topicId,topicName,topicDiscription,followNumber,topicAvatar FROM topic WHERE topicState=1 AND "
 					+ " topicName=(SELECT majorName FROM major"
-					+ " WHERE majorId =( SELECT majorId FROM collegestu WHERE id='"+userId+"'));";
+					+ " WHERE majorId =( SELECT majorId FROM collegestu WHERE id=?));";
 		
 		
 		}else if(duty==3){
 			//教师任职学校
 			sql1 ="SELECT topicId,topicName,topicDiscription,followNumber,topicAvatar FROM topic WHERE topicState=1 AND "
 					+ " topicName=(SELECT universityName FROM university"
-					+ " WHERE universityId =( SELECT universityId FROM teacher WHERE id='"+userId+"'));";
+					+ " WHERE universityId =( SELECT universityId FROM teacher WHERE id=?));";
 			//教师研究方向
 			sql2 ="SELECT topicId,topicName,topicDiscription,followNumber,topicAvatar FROM topic WHERE topicState=1 AND "
-					+ " topicName=( SELECT resDirection FROM teacher WHERE id='"+userId+"'));";
+					+ " topicName=( SELECT resDirection FROM teacher WHERE id=?));";
 		
 		
 		}
@@ -223,6 +224,7 @@ public class TopicDao {
 	        	if(sql1!=""){
 	        		
 		        	ptmt = conn.prepareStatement(sql1);
+		        	ptmt.setString(1,userId);
 		        	rst=ptmt.executeQuery();
 		        	while(rst.next()){
 		        		topic=new Topic();
@@ -238,6 +240,7 @@ public class TopicDao {
 	        	if(sql2!=""){
 	        		
 		        	ptmt = conn.prepareStatement(sql2);
+		        	ptmt.setString(1,userId);
 		        	rst=ptmt.executeQuery();
 		        	while(rst.next()){
 		        		topic=new Topic();
@@ -252,6 +255,7 @@ public class TopicDao {
 	        	}
 	        	if(sql3!=""){
 	        		ptmt = conn.prepareStatement(sql3);
+	        		ptmt.setString(1,userId);
 		        	rst=ptmt.executeQuery();
 		        	while(rst.next()){
 		        		topic=new Topic();
@@ -283,13 +287,14 @@ public class TopicDao {
 	public static Topic showTopic(int topicId){
 
 		String sql="SELECT topicName,topicBanner,topicAvatar,followNumber FROM topic WHERE "
-				+ "topicId="+topicId;
+				+ "topicId=?";
 		Connection conn = ConnectionManager.getInstance().getConnection();  
 		PreparedStatement ptmt=null;
 		ResultSet rst=null;
 		Topic topic=null;
         try{
         	ptmt = conn.prepareStatement(sql);
+        	ptmt.setInt(1,topicId);
         	rst=ptmt.executeQuery();
         	if(rst.next()){
         		topic=new Topic();
@@ -315,7 +320,7 @@ public class TopicDao {
 	
 	//显示问题列表
 	public static ArrayList<Question> showQuestionList(int topicId){
-		String sql="SELECT questionId,questionTitle,answerCount,userId,lastAnswerTime FROM question WHERE topicId="+topicId
+		String sql="SELECT questionId,questionTitle,answerCount,userId,lastAnswerTime FROM question WHERE topicId=?"
 				+ " ORDER BY lastAnswerTime DESC ;";
 		Connection conn = ConnectionManager.getInstance().getConnection();  
 		PreparedStatement ptmt=null;
@@ -324,6 +329,7 @@ public class TopicDao {
 		Question question=null;
         try{
         	ptmt = conn.prepareStatement(sql);
+        	ptmt.setInt(1,topicId);
         	rst=ptmt.executeQuery();
         	while(rst.next()){
         		question=new Question();
@@ -378,7 +384,7 @@ public class TopicDao {
 	public static Map<String, Question> showQuestion(int questionId){
 		String sql="SELECT topicName,topic.topicId,questionId,questionTitle,questionContent,userId,quesCreateTime FROM"
 				+ " topic INNER JOIN question ON topic.topicId=question.topicId WHERE "
-				+ "questionId="+questionId;
+				+ "questionId=?";
 		Map<String, Question> map=new HashMap<String, Question>();
 		Connection conn = ConnectionManager.getInstance().getConnection();  
 		PreparedStatement ptmt=null;
@@ -386,6 +392,7 @@ public class TopicDao {
 		Question question=null;
         try{
         	ptmt = conn.prepareStatement(sql);
+        	ptmt.setInt(1,questionId);
         	rst=ptmt.executeQuery();
         	if(rst.next()){
         		question=new Question();
@@ -411,7 +418,7 @@ public class TopicDao {
 	
 	//显示问题回复
 	public static ArrayList<Answer> showQA(int questionId){
-		String sql="SELECT * FROM answer WHERE questionId="+questionId+" ORDER BY answerApprovalNum DESC ;";
+		String sql="SELECT * FROM answer WHERE questionId=? ORDER BY answerApprovalNum DESC ;";
 		Connection conn = ConnectionManager.getInstance().getConnection();  
 		PreparedStatement ptmt=null;
 		ResultSet rst=null;
@@ -419,6 +426,7 @@ public class TopicDao {
 		Answer answer=null;
         try{
         	ptmt = conn.prepareStatement(sql);
+        	ptmt.setInt(1,questionId);
         	rst=ptmt.executeQuery();
         	while(rst.next()){
         		answer=new Answer();
@@ -480,10 +488,10 @@ public class TopicDao {
     				    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM");
     				    String dateString = formatter.format(currentTime);
     					String sql3 = "SELECT SUM(virtualNum) AS totalCurrency FROM transrecord WHERE id=?  AND way =2 AND time"
-    							+ " LIKE '%"+dateString+"%' ;";
+    							+ " LIKE ? ;";
     					ptmt = conn.prepareStatement(sql3);
     					ptmt.setString(1,answer.getAnswerUserId());
-    					
+    					ptmt.setString(2,"%"+dateString+"%");
     	    			rst = ptmt.executeQuery();	
     	    			if(rst.next()){
     	    				double num = rst.getDouble("totalCurrency");
@@ -564,7 +572,7 @@ public class TopicDao {
 	//搜索问题
 	public static ArrayList<Question> searchQuestion(String searchWord,int thisTopicId){
 		String sql="SELECT questionId,questionTitle,answerCount,userId,lastAnswerTime FROM question WHERE "
-				+ "topicId=? AND questionTitle LIKE '%"+searchWord+"%' ORDER BY answerCount DESC ;";
+				+ "topicId=? AND questionTitle LIKE ? ORDER BY answerCount DESC ;";
 		Connection conn = ConnectionManager.getInstance().getConnection();  
 		PreparedStatement ptmt=null;
 		ResultSet rst=null;
@@ -573,6 +581,7 @@ public class TopicDao {
         try{
         	ptmt = conn.prepareStatement(sql);
         	ptmt.setInt(1,thisTopicId);
+        	ptmt.setString(2,"%"+searchWord+"%");
         	rst=ptmt.executeQuery();
         	while(rst.next()){
         		question=new Question();
@@ -770,12 +779,12 @@ public class TopicDao {
 		
 	//点赞
 	public static String approveAns(int id){
-		String sql="UPDATE answer SET answerApprovalNum=answerApprovalNum+1 WHERE answerId="+id;
+		String sql="UPDATE answer SET answerApprovalNum=answerApprovalNum+1 WHERE answerId=?";
 		Connection conn = ConnectionManager.getInstance().getConnection();  
 		PreparedStatement ptmt=null;
 		 try{
 	        	ptmt = conn.prepareStatement(sql);				
-	    		
+	    		ptmt.setInt(1,id);
 	    		int rs1 = ptmt.executeUpdate();	
 	    		//服务器错误
 	    		if(rs1==0){

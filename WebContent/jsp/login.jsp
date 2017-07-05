@@ -17,7 +17,7 @@
 	<link href="<%=request.getContextPath()%>/css/templatemo_style.css" rel="stylesheet" type="text/css">
     <link href="<%=request.getContextPath()%>/css/colrank.css" rel='stylesheet' type='text/css' />
     <link href="<%=request.getContextPath()%>/css/nav.css" rel='stylesheet' type='text/css' />
-    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.8.0.js"></script>
+    <script src="../js/jquery.min.js"></script>
     <link href="<%=request.getContextPath()%>/css/lbt.css" rel='stylesheet' type='text/css' />
     <script src="<%=request.getContextPath()%>/js/lbt.js"></script>
 	<script src="<%=request.getContextPath()%>/js/uploadPreview.js" type="text/javascript"></script>
@@ -56,48 +56,37 @@
 					    	}
 							
 						}
-						function checkEmpty1(){
-							var ok=1;
-					    	if($('#id_info').html()!='该用户名可以注册'){
-					    		ok=0;
-					    	}
-					    	else if($('#password_info').html()!=''){
-					    		ok=0;
-					    	}
-					    	else if($('#password2_info').html()!=''){
-					    		ok=0;
-					    	}
-					    	else if($('#sa_info').html()!=''){
-					    		ok=0;
-					    	}
-					    	if(ok!=1){
-					    		alert("有信息缺失！");
-					    		return false;
-					    	}
-					    	else					    	
-					    		return true;
-						}
+						
 						//注册表单是否填全？
 						function checkEmpty2()  
 						{  			
-							
 						    if(!document.getElementById("confirmRegis").checked)
 						    {
 						    	alert("请同意注册！");
 						    	return false;
 						    }
 						    if(document.getElementById("r0").checked){
-						    	if(checkEmpty1())
-						    		return true;
-						    	else
-						    		return false;					    	
+						    	var ok=1;
+						    	if($('#id_info').html()!='该用户名可以注册'){
+						    		ok=0;
+						    	}
+						    	else if($('#password_info').html()!=''){
+						    		ok=0;
+						    	}
+						    	else if($('#password2_info').html()!=''){
+						    		ok=0;
+						    	}
+						    	else if($('#sa_info').html()!=''){
+						    		ok=0;
+						    	}
+						    	if(ok!=1){
+						    		alert("有信息缺失！");
+						    		return false;
+						    	}
+						    	
 						    }
 						    else if(document.getElementById("r1").checked)
 						    {
-						    	
-						    	
-						    	if(!checkEmpty1())
-						    		return false;
 						    	var provinceId2 = $("#pum_p").val();
 						    	if($('#pum_m').val()=='unknown'||$('#pum_m').val()==null){
 						 	    	if(provinceId2!='unknown')	 	    	
@@ -107,14 +96,12 @@
 						 	    	if(provinceId2!='unknown')	    	
 						 	    		$("#pum_info").html('');	
 						 	    }
-						    	
 						    	if($('#pum_info').html()!=''||$('#syear_info').html()!=''||
-						    			$('#rn_info').html()!=''||document.getElementById('sex_info').style.display!='none')
+						    			$('#rn_info').html()!='')
 						    	{
 						    		alert("请完善信息以便审核！");
 						    		return false;
 						    	}
-						    	
 						    	
 						    	 var imgShow=document.getElementById("imgShow");//预览图片
 						    
@@ -134,15 +121,6 @@
 						    }
 						    else if(document.getElementById("r2").checked)
 						    {
-
-						    	if(!checkEmpty1())
-						    		return false;
-						    	if($('#position_info').html()!=''||$('#rd_info').html()!=''||
-						    			$('#rn_info').html()!=''||document.getElementById('sex_info').style.display!='none')
-						    	{
-						    		alert("请完善信息以便审核！");
-						    		return false;
-						    	}
 						    	var imgShow=document.getElementById("imgShow");//预览图片
 							    
 								 var file=document.getElementById("up_img");
@@ -298,7 +276,7 @@
 		<%String from=request.getParameter("from"); %>
 		<%//request.setAttribute("uri", request.getParameter("uri")); %>
 			<form id=f1 class="form-horizontal templatemo-login-form-2" role="form" >
-					<input type=hidden name="from" id="from" value="<%=from %>"/>
+					<input type=hidden name="from" value="<%=from %>"/>
 					<div class="col-md-6" style="text-align:center;background-color: rgba(13,13,13,0.25);">
 						<a href="javascript:openLogin();">
 						    <font size=15px color=#fff>登录</font>
@@ -354,7 +332,7 @@
 						<div>
 						<label class="margin-bottom-15">
 							
-							<a href="/yzwish/jsp/forgetPW.jsp">忘记密码?</a>
+							<a href="#">忘记密码?</a>
 							
 						</label>
 						</div>

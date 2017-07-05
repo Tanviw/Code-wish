@@ -15,6 +15,12 @@ public class HighSchoolStu extends Account{
 	private String hsage;//用于表单接收
 	private String provinceId;
 	
+	public String getProvinceId() {
+		return provinceId;
+	}
+	public void setProvinceId(String provinceId) {
+		this.provinceId = provinceId;
+	}
 	@Override
 	public String toString() {
 		return "HighSchoolStu [id=" + id + ", age=" + age + ", hId=" + hId + ", safetyProblem=" + safetyProblem
@@ -25,12 +31,6 @@ public class HighSchoolStu extends Account{
 	}
 
 	
-	public String getProvinceId() {
-		return provinceId;
-	}
-	public void setProvinceId(String provinceId) {
-		this.provinceId = provinceId;
-	}
 	public String getHsage() {
 		return hsage;
 	}

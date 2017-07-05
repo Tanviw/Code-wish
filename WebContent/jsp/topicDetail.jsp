@@ -19,9 +19,9 @@ $(document).ready(function(){
 	
 	var id = "${sessionScope.id}";
 	if(id==""){
-		var flw='<button type="button" class="btn btn-primary"'
+		var flw='<button type="button" onclick="followTopic()" class="btn btn-primary"'
 			+'style="font-size: 16px;"><span  class=" glyphicon glyphicon-plus" '
-			+'onclick="followTopic()">关注</span></button>';
+			+'>关注</span></button>';
 		
             $("#followTopic").html(flw);
 		return false;
@@ -43,14 +43,14 @@ $(document).ready(function(){
 	        data:info,
 	        success: function(data, status) {
 	            if (data == "error") {
-	                var flw='<button type="button" class="btn btn-primary"'
+	                var flw='<button type="button" onclick="followTopic()" class="btn btn-primary"'
 					+'style="font-size: 16px;"><span  class=" glyphicon glyphicon-plus" '
-					+'onclick="followTopic()">关注</span></button>';
+					+'>关注</span></button>';
 				
 	                $("#followTopic").html(flw);
 	            }else{
-	            	var followItem='<button type="button" class="btn"  style="font-size: 16px;">'
-					+'<span class="fa fa-check" onclick="cancelFollowTopic()">已关注</span></button>';
+	            	var followItem='<button type="button" class="btn" onclick="cancelFollowTopic()"  style="font-size: 16px;">'
+					+'<span class="fa fa-check" >已关注</span></button>';
 	            	$("#followTopic").html(followItem);
 	            	
 	            }

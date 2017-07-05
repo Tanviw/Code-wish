@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -44,8 +43,7 @@ public class LoginController {
 	//此函数使用ajax处理登录验证
 	@RequestMapping(value="/checkLogin",method=RequestMethod.POST) 
     public @ResponseBody String checkLogin(@RequestBody Account account,HttpServletRequest request,HttpSession session){  
-		System.out.println(account.toString());
-		System.out.println("from:"+account.getFrom());
+       
 		String from=account.getFrom();
 		JSONArray array=new JSONArray();
 		JSONObject jsonObj = new JSONObject();
@@ -70,12 +68,13 @@ public class LoginController {
 		jsonObj.put("msg", result);
 		jsonObj.put("from", from);
         array.add(jsonObj);   
-
+        System.out.println(array.toString());
         return array.toString();	        
 	}
 	
 	@RequestMapping(value="/logout",method=RequestMethod.GET) 
     public ModelAndView logout(HttpSession session,HttpServletRequest request,String from){  
+		System.out.println("进入logoutAction！");
 		if(from!=null)
 		{
 		
@@ -96,7 +95,7 @@ public class LoginController {
 			System.out.println("清除此次会话");
 			session.invalidate();
 		}
-
+		System.out.println("退出logoutAction！");
 		return new ModelAndView("redirect:/jsp/index.jsp?from="+from);
 	}
 	
@@ -130,11 +129,12 @@ public class LoginController {
 			}
 			
 		}
-        
+        System.out.println(array.toString());
         return array.toString();	        
 	}
 	@RequestMapping(value="/getCollegeList",method=RequestMethod.GET) 
     public @ResponseBody String getCollegeList(){  
+        System.out.println("进入getCollegeList");
 		JSONArray array=new JSONArray();
 		HashMap<String,String> proMap=new HashMap<String,String>();
 		HashMap<String,ArrayList<University>> hm=UserDao.getPC(proMap);
@@ -162,11 +162,13 @@ public class LoginController {
 			}			
 	      
 		}
-
+        System.out.println(array.toString());
         return array.toString();	        
 	}
 	@RequestMapping(value="/getMajorList",method=RequestMethod.POST) 
     public @ResponseBody String getMajorList(@RequestBody University university){  
+        System.out.println("进入getMajorList");
+        System.out.println(university.getUniversityId());
 		JSONArray array=new JSONArray();
 		
 		ArrayList<Major> mList=UserDao.getMajorList(university);
@@ -178,25 +180,27 @@ public class LoginController {
 			jsonObj.put("majorName", temp.getMajorName());
 			array.add(jsonObj);
 		}		
-    
+        System.out.println(array.toString());
         return array.toString();	        
 	}
 	
 	@RequestMapping(value="/checkAccountExists",method=RequestMethod.POST) 
     public @ResponseBody String checkAccountExists(@RequestBody Account account){  
+        System.out.println("进入checkLogin");
 		System.out.println(account.toString());
 		JSONArray array=new JSONArray();
 		JSONObject jsonObj = new JSONObject();
 		int result=UserDao.hasAccount(account);		
 		jsonObj.put("msg", result);
         array.add(jsonObj);   
-        
+        System.out.println(array.toString());
         return array.toString();	        
 	}
 	
 	@RequestMapping(value="/register",method=RequestMethod.POST) 
     public ModelAndView register(Account ac,HighSchoolStu hsstu,CollegeStu cs,Teacher tea,
     		String from,HttpServletRequest request,HttpSession session){  	
+        System.out.println("进入register");
     	System.out.println(ac.toString()+hsstu.toString()+tea.toString());
 		int result=UserDao.register(ac,hsstu,cs,tea);
 		if(result==1){
@@ -222,33 +226,5 @@ public class LoginController {
 			return new ModelAndView("/jsp/login");
 		}
         	        
-	}
-	@RequestMapping(value="/checkSafetyInfo",method=RequestMethod.POST) 
-	public ModelAndView checkSafetyInfo(String id,int sp,String sa,HttpServletRequest request){
-		int result=UserDao.checkSafetyInfo(id, sp, sa);
-		if(result==2){
-			request.setAttribute("msg", "用户名或密保错误");
-			return new ModelAndView("/jsp/forgetPW");
-		}
-		else if(result==3){
-			request.setAttribute("msg", "服务器错误");
-			return new ModelAndView("/jsp/forgetPW");
-		}
-		else{
-			request.setAttribute("id", id);
-			return new ModelAndView("/jsp/setNewPW");
-		}
-		
-	}
-	@RequestMapping(value="/setNewPW",method=RequestMethod.POST) 
-    public @ResponseBody String setNewPW(@RequestParam("np") String np,@RequestParam("id") String id){  
-		System.out.println(id+" "+np);
-		JSONArray array=new JSONArray();
-		JSONObject jsonObj = new JSONObject();
-		int result=UserDao.setNewPW(id,np);		
-		jsonObj.put("result", result);
-        array.add(jsonObj);   
-        
-        return array.toString();	        
 	}
 }

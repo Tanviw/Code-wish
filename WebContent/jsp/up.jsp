@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="java.net.URLEncoder"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	<%@page import="java.net.URLEncoder"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,24 +12,9 @@
     <link href="<%=request.getContextPath()%>/css/lbtf.css" rel='stylesheet' type='text/css' />
     <link href="<%=request.getContextPath()%>/font-awesome-4.7.0/css/font-awesome.min.css" rel='stylesheet' type='text/css' />
     <script src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
-    <!-- 
     <script src="<%=request.getContextPath()%>/js/cbs.js"></script>
     <script src="<%=request.getContextPath()%>/js/lbt.js"></script>
-     -->    
-     <link rel="stylesheet" href="<%=request.getContextPath()%>/css/message.css" media="screen" type="text/css" />
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/message.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/dropdownlist.css" media="screen" type="text/css" />
- <script type="text/javascript">
-
-			function displaySubMenu(li) { 
-				var subMenu = li.getElementsByTagName("ul")[0]; 
-				subMenu.style.display = "block"; 
-				} 
-				function hideSubMenu(li) { 
-				var subMenu = li.getElementsByTagName("ul")[0]; 
-				subMenu.style.display = "none"; 
-				} 
-</script>
+    <script src="<%=request.getContextPath()%>/js/bootstrap.min.js"></script>
  </head>
 <body>   
 <div class="header-top">
@@ -49,7 +34,6 @@
     	//out.println("uri:null");
   }
   String qs=request.getQueryString();
-  System.out.println("QueryString:"+qs);
   //用于jsp
      
 	  String url=request.getRequestURL().toString();
@@ -94,7 +78,6 @@
 					from=from.replace("&", "&amp;");
 					from=URLEncoder.encode(from,"UTF-8");
 				}
-				System.out.println("up.jspfrom："+from);
   %>
   
         <div class="inner">
@@ -107,12 +90,12 @@
                     <li><a href="#">专业解析</a></li>
                      
                     <li>
-                        <a href="#">学长问答</a> 
+                        <a href="/yzwish/topic/showHotTopic">学长问答</a> 
                     </li>
                     <li>
                         <a href="#">权威咨询</a> 
                     </li>
-                    <li><a href="/yzwish/jsp/transstu.jsp">关于插班生</a></li>
+                    <li><a href="transstu.jsp">关于插班生</a></li>
                 </ul>
             </div>
             <!--  
@@ -129,40 +112,12 @@
 				  <a href="<%=request.getContextPath()%>/jsp/login.jsp?from=<%=from %>" class="log signUp">登录/注册</a>
 				  </c:if>
 				  <c:if test="${sessionScope.login_status==1}">
-				<ul id="navigation">
-						<li onmouseover="displaySubMenu(this)" onmouseout="hideSubMenu(this)"> 
-						    <a href="#">
-						    ${sessionScope.id}
-						     <c:if test="${requestScope.unReadMsgNum!=0}">
-						    <span class="unread">${requestScope.unReadMsgNum }</span>
-						    </c:if>
-						    </a>
-							<ul>
-								<li>
-								     <c:if test="${requestScope.unReadMsgNum==0  }">
-									 <a href="/yzwish/userInfo/showBasicInfo">个人中心</a>
-									 </c:if>
-									 
-									 <c:if test="${requestScope.unReadMsgNum!=0  }">
-									 <div >
-									 <div style="float:left;margin-left:15px">
-									 <a href="/yzwish/userInfo/postPage" >
-									 个人中心<span class="unread">${requestScope.unReadMsgNum }</span>
-									 </a>
-									 </div>
-									 </div>
-									 </c:if>
-								</li>
-								<li>
-									 <a href="#">个人主页</a>
-								</li>
-							</ul>
-						</li>
-						<li class="dropdown">
-							 <a href="<%=request.getContextPath()%>/login/logout">退出</a>							
-						</li>
-					</ul>
-					</c:if>
+				  <a href="<%=request.getContextPath()%>/userInfoowBasicInfo">
+				  <span style="color: #FFFFFF;font-size:20px;">${sessionScope.id}</span>
+				  </a>
+				  &nbsp;&nbsp;
+				  <a href="<%=request.getContextPath()%>/login/logout?from=<%=from %>" id="login" style="color: #FFFFFF;color: #FFFFFF;font-size:20px;">注销</a>
+				  </c:if>
 
             </div>
 

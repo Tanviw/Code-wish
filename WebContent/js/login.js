@@ -17,6 +17,7 @@ function initProvinceHS(){
 		},										
 	    success:function(data){
 	    	//alert("返回页面");
+	    	console.log(data[0]);
 	    	var res = $.parseJSON(data);
 	    	for(j=0;j<res.length;j++){
 	    		$("#pchs_pc").append('<option value="'+

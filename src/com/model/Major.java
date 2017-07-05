@@ -53,11 +53,6 @@ public class Major {
 	public void setRank(int rank) {
 		this.rank = rank;
 	}
-	@Override
-	public String toString() {
-		return "Major [majorId=" + majorId + ", majorName=" + majorName + ", majorDiscription=" + majorDiscription
-				+ ", coreCourses=" + coreCourses + ", employment=" + employment + ", rank=" + rank + "]";
-	}
 	
 	
 }

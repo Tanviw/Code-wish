@@ -19,27 +19,18 @@ public class Teacher extends Account{
 	private int safetyProblem;
 	private String safetyAnswer;
 	private double balance;
-
 	
 	//
     private MultipartFile pic;
     private String hsage;
     private String ui;
-    private int status;
 	private String provinceId;
-	
 	
 	public String getProvinceId() {
 		return provinceId;
 	}
 	public void setProvinceId(String provinceId) {
 		this.provinceId = provinceId;
-	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
 	}
 	public String getUi() {
 		return ui;

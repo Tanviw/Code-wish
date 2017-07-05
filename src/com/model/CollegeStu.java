@@ -25,21 +25,13 @@ public class CollegeStu extends Account{
 	private String hsage;
 	private MultipartFile pic;
 	private String syear;
-	private int status;
 	private String provinceId;
-	
 	
 	public String getProvinceId() {
 		return provinceId;
 	}
 	public void setProvinceId(String provinceId) {
 		this.provinceId = provinceId;
-	}
-	public int getStatus() {
-		return status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
 	}
 	public String getSyear() {
 		return syear;

@@ -301,7 +301,7 @@ function followTopic(){
 	                alert("服务器出错啦")
 	                
 	            }else{
-	            	var followItem='<button type="button" class="btn" disabled style="font-size: 16px;">'
+	            	var followItem='<button type="button" class="btn" onclick="cancelFollowTopic()" style="font-size: 16px;">'
 					+'<span class="fa fa-check">已关注</span></button>';
 	            	$("#followTopic").html(followItem);
 	            	var fn=Number($("#follow-number").html());
@@ -337,9 +337,9 @@ function cancelFollowTopic(){
                 alert("服务器出错啦")
                 
             }else{
-            	 var flwc='<button type="button" class="btn btn-primary"'
+            	 var flwc='<button type="button" class="btn btn-primary" onclick="followTopic()" '
  					+'style="font-size: 16px;"><span  class=" glyphicon glyphicon-plus" '
- 					+'onclick="followTopic()">关注</span></button>';
+ 					+'>关注</span></button>';
  				
  	                $("#followTopic").html(flwc);
             
@@ -398,7 +398,7 @@ function followQuestion(){
 	                alert("服务器出错啦")
 	                
 	            }else{
-	            	var followQuesItem='<button type="button" class="btn fa fa-check" disabled style="margin-top:20px;">'
+	            	var followQuesItem='<button type="button" onclick="cancelFollowQues()" class="btn fa fa-check"  style="margin-top:20px;">'
 					+'已关注</button>';
 	            	$("#followQuesItem").html(followQuesItem);
 	            	

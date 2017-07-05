@@ -10,7 +10,6 @@ public class Account {
 	//
 	private String from;
 	
-	
 	public String getFrom() {
 		return from;
 	}

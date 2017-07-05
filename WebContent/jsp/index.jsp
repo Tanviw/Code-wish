@@ -30,9 +30,6 @@
 <link href="<%=request.getContextPath()%>/css/templatemo_style.css" rel="stylesheet" type="text/css">
 <script type="application/javascript" src="<%=request.getContextPath()%>/js/jquery-3.1.1.js"></script>
 <script type="application/javascript" src="<%=request.getContextPath()%>/js/demo.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/message.css" media="screen" type="text/css" />
-<script type="text/javascript" src="<%=request.getContextPath()%>/js/message.js"></script>
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/dropdownlist.css" media="screen" type="text/css" />
 <!--/script-->
 <script type="text/javascript">
 			jQuery(document).ready(function($) {
@@ -41,22 +38,12 @@
 					$('html,body').animate({scrollTop:$(this.hash).offset().top},900);
 				});
 			})
-			function displaySubMenu(li) { 
-				var subMenu = li.getElementsByTagName("ul")[0]; 
-				subMenu.style.display = "block"; 
-				} 
-				function hideSubMenu(li) { 
-				var subMenu = li.getElementsByTagName("ul")[0]; 
-				subMenu.style.display = "none"; 
-				} 
-
-
 
 </script>
+
 </head>
 <body>
 <%
-  System.out.println("index.jsp:");
   String qs=request.getQueryString();
    if(qs!=null)//参数不空
  {
@@ -64,7 +51,6 @@
   {
   
 	   String from=request.getParameter("from");
-	   System.out.println("URL里有from");
   
 	   if(from!=null&&!from.equals("null")&&!from.equals("")) 
 	  {
@@ -72,23 +58,19 @@
 		  //pageContext.setAttribute("from",from,PageContext.PAGE_SCOPE);
 		  
 
-		  System.out.println("firstfrom: "+from);
 		  from=from.replace("&amp;", "&");
-		  System.out.println("初始前端得到的from: "+from);
 		  //from=URLEncoder.encode(from,"UTF-8");
-		  System.out.println("前端得到的加码from:"+from);
 		  //from=java.net.URLDecoder.decode(from, "UTF-8");
 		  //from=from.replace("%3F", "?").replace("%3D","=").replace("%26", "&");
-		  System.out.println("前端转发前的from:"+from);
 		  response.sendRedirect("http"+from);
 	  
       } 
 	   else{
-		   System.out.println("不进入上面！");
 	   }
   }
-  else
-	  System.out.println("from kong!");
+  else{
+	  
+  }
  }
   %>
   
@@ -103,56 +85,17 @@
 				<c:if test="${sessionScope.login_status!=1}">
 				  <a href="<%=request.getContextPath()%>/jsp/login.jsp" id="login" style="font-size:20px;">注册/登录</a>
 				</c:if>
-				<%-- 
 				<c:if test="${sessionScope.login_status==1}">
-				  <a href="<%=request.getContextPath()%>/userInfo/showBasicInfo">
-				  <span style="color: #FFFFFF;font-size:20px;">${sessionScope.id}</span>
-				  </a>
+				  <a href="#"><span style="color: #FFFFFF;font-size:20px;">${sessionScope.id}</span></a>
 				  &nbsp;&nbsp;
-			      <a href="<%=request.getContextPath()%>/login/logout" id="login" style="color: #FFFFFF;color: #FFFFFF;font-size:20px;">注销</a>
+					<a href="<%=request.getContextPath()%>/login/logout" id="login" style="color: #FFFFFF;color: #FFFFFF;font-size:20px;">注销</a>
 				</c:if>
-				--%>
-				<c:if test="${sessionScope.login_status==1}">
-				<ul id="navigation">
-						<li onmouseover="displaySubMenu(this)" onmouseout="hideSubMenu(this)"> 
-						    <a href="#">
-						    ${sessionScope.id}
-						    <c:if test="${requestScope.unReadMsgNum!=0}">
-						    <span class="unread">${requestScope.unReadMsgNum }</span>
-						    </c:if>
-						    </a>
-							<ul>
-								<li>
-								     <c:if test="${requestScope.unReadMsgNum==0  }">
-									 <a href="/yzwish/userInfo/showBasicInfo">个人中心</a>
-									 </c:if>
-									 
-									 <c:if test="${requestScope.unReadMsgNum!=0  }">
-									 <div >
-									 <div style="float:left;margin-left:15px">
-									 <a href="/yzwish/userInfo/postPage" >
-									 个人中心<span class="unread">${requestScope.unReadMsgNum }</span>
-									 </a>
-									 </div>
-									 </div>
-									 </c:if>
-								</li>
-								<li>
-									 <a href="#">个人主页</a>
-								</li>
-							</ul>
-						</li>
-						<li class="dropdown">
-							 <a href="<%=request.getContextPath()%>/login/logout">退出</a>							
-						</li>
-					</ul>
-					</c:if>
 				</div>
 			<span class="menu"><img src="images/nav.png" alt=""/></span>
 				<div class="top-menu">
 					<ul>
 					<nav class="cl-effect-13">
-					    <li><a href="/yzwish/jsp/transstu.jsp">关于插班生</a></li>
+					    <li><a href="#">关于插班生</a></li>
 						<li><a href="#">友情链接</a></li>
 						<li><a href="#">关于我们</a></li>
 						<li><a href="#">联系我们</a></li>						
@@ -199,7 +142,7 @@
 					<br/>
 					<br/>
 					<br/>
-					<a href="#">
+					<a href="/yzwish/topic/showHotTopic">
                                                     学长来帮忙</a>
 				</div>
 				<div class="header-bottom-grid4">
